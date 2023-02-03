@@ -9,45 +9,45 @@ public class Data implements Serializable {
     int width ;
     float[] arrayKirnel ;
     
-    int [][] matA ;
-    int [][] matB ;
-    int [][] Res = {{0,0},{0,0}};
-    String operation;
+    float [][] matA ;
+    float [][] matB ;
+    float [][] Res = {{0,0},{0,0}};
+    char operation;
 
-    public int[][] getMatA() {
+
+    public float[][] getMatA() {
         return matA;
     }
 
-    public void setMatA(int[][] matA) {
+    public void setMatA(float[][] matA) {
         this.matA = matA;
     }
 
-    public int[][] getMatB() {
+    public float[][] getMatB() {
         return matB;
     }
 
-    public void setMatB(int[][] matB) {
+    public void setMatB(float[][] matB) {
         this.matB = matB;
     }
 
-    public int[][] getRes() {
+    public float[][] getRes() {
         return Res;
     }
 
-    public void setRes(int[][] res) {
+    public void setRes(float[][] res) {
         Res = res;
     }
 
-    public String getOperation() {
+    public char getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
+    public void setOperation(char operation) {
         this.operation = operation;
     }
-
-
-
+   
+    
 
     public int getHegth() {
         return hegth;
@@ -96,7 +96,7 @@ public class Data implements Serializable {
         this.arrayKirnel = arrayKirnel;
     }
     // constructor
-    public Data(int[][] matA, int[][] matB, String operation) {
+    public Data(float[][] matA, flaot[][] matB, char operation) {
         this.matA = matA;
         this.matB = matB;
         this.operation = operation;
