@@ -22,7 +22,8 @@ class MTClient extends Thread{
     public MTClient(Socket socket,Stack<Worker>  slevers){
         this.socket = socket;
         this.slevers = slevers ;
-        System.out.println("client coneccted");
+        System.out.println("client coneccted"+Server.numberS);
+        
 
     }
 
@@ -36,14 +37,14 @@ class MTClient extends Thread{
             this.hi=data.hegth;
             this.we=data.width;
             //========
+
             File image = new File("./ImageServerinit.jpeg");
             FileOutputStream outf = new FileOutputStream(image);
             outf.write(data.f);
             outf.close();
 
-            Stack<BufferedImage> st = util.Decouper(image,1);
-            System.out.println(" decoupeeeeeeeeeeeeeer ");
-
+            Stack<BufferedImage> st = util.Decouper(image,Server.numberS);
+            
             util.DistToSlavers(st,slevers,filtredPartey,kernel);
 
             new Thread(new Runnable() {
@@ -53,7 +54,7 @@ class MTClient extends Thread{
                        //sleep(5000);
                         while (true){
                             if (filtredPartey.size() < Server.numberS){
-                                System.out.println("mazaaaaal matjma3 koulchi ");
+                                System.out.print("");
                                 continue;
                             }
                             data.setF(util.Merge(filtredPartey));
