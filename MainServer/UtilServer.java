@@ -172,26 +172,36 @@ public class UtilServer implements IUtilServer {
     }
 
     @Override
-    public void matriceTraitement(Socket socket, Data data) {
-       
+    public void matriceTraitement(Socket socket, Data data,ObjectInputStream in,ObjectOutputStream out) {
+       float[][] res = null; 
     switch(data.operation){
         case '+':
-            additionMatrice(data.matA,data.matB);
+
+        res = additionMatrice(data.matA,data.matB);
             break;
         case '-':
-            substractionMatrice(data.matA,data.matB);
+        res = substractionMatrice(data.matA,data.matB);
             break;
         case '*':
-            multiplicationMatrice(data.matA,data.matB);
+        res = multiplicationMatrice(data.matA,data.matB);
             break;
         default:
             break;
     }
+    data.setRes(res);
+    try {
+        out.writeObject(data);
+        out.flush();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    };
+    
 
  }
 
     @Override
-    public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey) {
+    public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey,ObjectInputStream in,ObjectOutputStream out) {
         float[] kernel;
         int hi;
         int we;
@@ -209,24 +219,23 @@ public class UtilServer implements IUtilServer {
                 outf.close();
                 Stack<BufferedImage> st = Decouper(image,Server.numberS);
                 DistToSlavers(st,slavers,filtredPartey,kernel);
-           
-            }catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+                
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        in = new ObjectInputStream(socket.getInputStream());
-                        out= new ObjectOutputStream(socket.getOutputStream()) ;
+                            // in = new ObjectInputStream(socket.getInputStream());
+                            // out= new ObjectOutputStream(socket.getOutputStream()) ;
+                            System.out.print("done");
                         while (true){
                             if (filtredPartey.size() < Server.numberS){
-                                System.out.print("");
+                                System.out.print("wait ...");
                                 continue;
                             }
+
                             data.setF(Merge(filtredPartey));
+
                             out.writeObject(data);
                             out.flush();
                             break;
@@ -237,8 +246,11 @@ public class UtilServer implements IUtilServer {
                     }
 
             }).start();
-            
-        
+
+        }catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
     }
 }

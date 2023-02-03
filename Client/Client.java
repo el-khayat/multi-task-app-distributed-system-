@@ -35,6 +35,7 @@ public class Client{
         data.setArrayKirnel(Kernel);
         data.setHegth((int)Math.sqrt(Kernel.length));
         data.setWidth((int)Math.sqrt(Kernel.length));
+        data.setTask("convolution");
         out.writeObject(data);
         out.flush();
                     
@@ -65,6 +66,7 @@ public class Client{
         float[][] matA = util.ReadMatrice("enter the first matrice ",size);
         float[][] matB = util.ReadMatrice("enter the second matrice ",size);
         Data data = new Data(matA,matB,operation);
+        data.setTask("matrice");
         
         float [][] result = util.sendReciveMatrice(socket, data);
         
@@ -82,7 +84,7 @@ public class Client{
         
         // start timer 
         long start = System.currentTimeMillis();
-        client.applyConvOnImage();
+        client.matriceOperation();
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
         System.out.println(now-start);       
