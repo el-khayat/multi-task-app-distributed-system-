@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 import java.util.Stack;
 import java.awt.image.BufferedImage;
@@ -20,4 +21,6 @@ public interface IUtilServer {
     public float[][] substractionMatrice(float[][] matA, float[][] matB);
 
     public float[][] multiplicationMatrice(float[][] matA, float[][] matB);
+    public void matriceTraitement(Socket socket, Data data);
+    public void convolutionTraitement(Socket socket, Data data);
 }
