@@ -33,6 +33,16 @@ class MTClient extends Thread{
             in = new ObjectInputStream(socket.getInputStream());
             out= new ObjectOutputStream(socket.getOutputStream()) ;
             Data data = (Data) in.readObject();
+            switch (data.task) {
+                case "matrice":
+                    util.matriceTraitement(socket,data);
+                    break;
+                case "convolution":
+                    util.convolutionTraitement(socket,data);
+                break;
+                default:
+                    break;
+            }
             this.kernel=data.arrayKirnel;
             this.hi=data.hegth;
             this.we=data.width;
