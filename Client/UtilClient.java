@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
-
+import java.util.Scanner;
 public class UtilClient implements IUtilClient {
 
     @Override
@@ -50,9 +50,20 @@ public class UtilClient implements IUtilClient {
     }
 
     @Override
-    public float[][] ReadMatrice() {
-        // TODO Auto-generated method stub
-        return null;
+    public float[][] ReadMatrice(String text,int size) {
+        System.out.println(text);
+        final Scanner sc = new Scanner(System.in);
+                        float[][] a = new float[][]{{0, 0}, {0, 0}};
+                            System.out.println("Entrez  Matrice");
+                            int i;
+                            int j;
+                            for(i = 0; i <size ; ++i) {
+                                for(j = 0; j < size; ++j) {
+                                    System.out.println("  M[" + i + "][" + j + "] =  ");
+                                    a[i][j] = Integer.parseInt(sc.next());
+                                }
+                            }
+                  return a ;      
     }
 
     @Override
