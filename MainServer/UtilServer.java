@@ -142,13 +142,30 @@ public class UtilServer implements IUtilServer {
 
     @Override
     public float[][] substractionMatrice(float[][] matA, float[][] matB) {
-        // TODO Auto-generated method stub
-        return null;
+        float[][] result = new float[matA.length][matA[0].length];
+
+        for (int i = 0; i < matA.length; ++i) {
+            for (int j = 0; j < matA[i].length; ++j) {
+                result[i][j] = matA[i][j] - matB[i][j];
+            }
+        }
+        return result;
     }
 
     @Override
     public float[][] multiplicationMatrice(float[][] matA, float[][] matB) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        float[][] result = new float[matA.length][matA[0].length];
+        for(int i = 0; i < matA.length; ++i) {
+            for(int j = 0; j < matB.length; ++j) {
+                result[i][j] =0;
+                for(int k = 0; k < matA.length;k++){
+                   result[i][j] += matA[i][k]*matB[k][j];
+                }
+                System.out.print(result[i][j]+" "); 
+            }
+            System.out.println();
+        }
+        return result;
     }
 }
