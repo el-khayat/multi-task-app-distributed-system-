@@ -74,6 +74,7 @@ public class UtilClient implements IUtilClient {
 
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        
         //send
         out.writeObject(data);
         out.flush();
