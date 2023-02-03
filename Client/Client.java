@@ -54,10 +54,10 @@ public class Client{
             this.Kernel = util.setKernelFromFile(args[2]);
     }
     
-    public void matriceOperation() throws UnknownHostException, IOException{
+    public void matriceOperation() throws UnknownHostException, IOException, ClassNotFoundException{
         socket = new Socket(this.host,this.port);
 
-        System.out.println(" chose your operation +, -, *, or / ");
+        System.out.println(" chose your operation +, - or *");
         Scanner sc = new Scanner(System.in);
         char operation = sc.nextLine().charAt(0);
         System.out.println(" enter matrice's size ");
@@ -69,6 +69,7 @@ public class Client{
         float [][] result = util.sendReciveMatrice(socket, data);
         
             util.printMatrice(result);
+            sc.close();
     }
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
