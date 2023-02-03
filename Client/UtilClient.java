@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 public class UtilClient implements IUtilClient {
@@ -70,8 +72,8 @@ public class UtilClient implements IUtilClient {
     public float[][] sendReciveMatrice(Socket socket, Data data) {
         // TODO Auto-generated method stub
 
-        ObjectInputStream in = new ObjectOutputStream(socket.getOutputStream());
-        ObjectOutputStream out = new ObjectInputStream(socket.getInputStream());
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         //send
         out.writeObject(data);
         out.flush();
@@ -84,9 +86,19 @@ public class UtilClient implements IUtilClient {
     }
 
     @Override
-    public void printMatrice(float[][] matice) {
+    public void printMatrice(float[][] matrice) {
         // TODO Auto-generated method stub
-        
+        String matAs  = "\n";
+        matAs+="\n";
+          for (int i = 0 ; i<matrice.length; ++i ){
+            matAs+="[";
+            for (int j = 0 ; j< matrice.length; ++j ){
+                matAs += matrice[i][j] ;
+                matAs+=" ";
+            }
+            matAs+=" ]\n";
+        }
+        System.out.println(matAs)  ;
     }
     
 }
