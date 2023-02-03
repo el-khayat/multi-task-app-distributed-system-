@@ -96,7 +96,7 @@ public class Data implements Serializable {
         this.arrayKirnel = arrayKirnel;
     }
     // constructor
-    public Data(float[][] matA, flaot[][] matB, char operation) {
+    public Data(float[][] matA, float[][] matB, char operation) {
         this.matA = matA;
         this.matB = matB;
         this.operation = operation;
