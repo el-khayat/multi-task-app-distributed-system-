@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client implements IUtilClient{
+public class Client {
     int port ;
     String host ;
 
@@ -12,39 +12,11 @@ public class Client implements IUtilClient{
     Socket socket;
     ObjectInputStream in;
     ObjectOutputStream out;
+    IUtilClient util = new UtilClient(); 
 
-    public void setInfoFromFile(String filepath) throws IOException{
-        File file = new File(filepath);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line ="";
-        while (line != null){
-            
-            line = br.readLine();
-            if (line ==null)  break;              
-            String [] lineStrings = line.split(";");
-            this.host = lineStrings[0];
-            this.port = Integer.parseInt(lineStrings[1]);
-        }
-        br.close();
-    }
-    public void setKernelFromFile(String filepath) throws IOException{
-        File file = new File(filepath);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String lineKernel ="";
-        
-        while (lineKernel != null){
-            lineKernel = br.readLine();
-            if (lineKernel ==null)  break;              
-            String [] lineStrings = lineKernel.split(";");
-            Kernel = new float[lineStrings.length];
-            for(int i = 0 ; i< lineStrings.length;++i)
-                this.Kernel[i] =Float.parseFloat(lineStrings[i]); 
-        }
-        br.close();
-    }
-    public void setImage(String filepath){
-        this.image = new File(filepath);
-    }
+    
+
+    
     public void sendRecieveData() throws UnknownHostException, IOException, ClassNotFoundException{
         
         socket = new Socket(host, port);
@@ -73,9 +45,12 @@ public class Client implements IUtilClient{
         socket.close();
     }
     public Client(String[] args)throws  IOException{
-            setInfoFromFile(args[0]);
-            setImage(args[1]);
-            setKernelFromFile(args[2]);        
+            
+            String[] config = util.setInfoFromFile(args[0]);
+            this.host = config[0];
+            this.port = Integer.parseInt(config[1]);
+            this.image = util.setImage(args[1]);
+            this.Kernel = util.setKernelFromFile(args[2]);
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {

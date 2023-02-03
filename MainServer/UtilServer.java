@@ -44,13 +44,15 @@ public class UtilServer implements IUtilServer {
         return baos.toByteArray();
     }
     public void DistToSlavers(Stack<BufferedImage> st , Stack<Worker> slavers, List<Data> filtredPartey,float[] kernel){
-
+        
         Iterator<BufferedImage> itr = st.iterator();
+        Stack<Worker> workers = (Stack) slavers.clone();
         while (itr.hasNext())
         {
             BufferedImage bi = itr.next();
-            Worker slaver = (Worker) slavers.pop();
-
+            Worker slaver = (Worker) workers.pop();
+            System.out.println("slaver id  "+slaver.id);
+            
             new Thread(new Runnable() {
                 @Override
                 public void run() {
