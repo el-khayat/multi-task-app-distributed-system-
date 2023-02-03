@@ -171,9 +171,22 @@ public class UtilServer implements IUtilServer {
 
     @Override
     public void matriceTraitement(Socket socket, Data data) {
-        // TODO Auto-generated method stub
-        
+       
+    switch(data.operation){
+        case '+':
+            additionMatrice(data.matA,data.matB);
+            break;
+        case '-':
+            substractionMatrice(data.matA,data.matB);
+            break;
+        case '*':
+            multiplicationMatrice(data.matA,data.matB);
+            break;
+        default:
+            break;
     }
+
+ }
 
     @Override
     public void convolutionTraitement(Socket socket, Data data) {
