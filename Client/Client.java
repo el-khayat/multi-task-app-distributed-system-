@@ -1,8 +1,9 @@
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
-public class Client {
+public class Client{
     int port ;
     String host ;
 
@@ -17,7 +18,7 @@ public class Client {
     
 
     
-    public void sendRecieveData() throws UnknownHostException, IOException, ClassNotFoundException{
+    public void applyConvOnImage() throws UnknownHostException, IOException, ClassNotFoundException{
         
         socket = new Socket(host, port);
         out = new ObjectOutputStream(socket.getOutputStream());
@@ -52,7 +53,23 @@ public class Client {
             this.image = util.setImage(args[1]);
             this.Kernel = util.setKernelFromFile(args[2]);
     }
+    
+    public void matriceOperation() throws UnknownHostException, IOException{
+        socket = new Socket(this.host,this.port);
 
+        System.out.println(" chose your operation +, -, *, or / ");
+        Scanner sc = new Scanner(System.in);
+        char operation = sc.nextLine().charAt(0);
+        System.out.println(" enter matrice's size ");
+        int  size = sc.nextInt();
+        float[][] matA = util.ReadMatrice("enter the first matrice ",size);
+        float[][] matB = util.ReadMatrice("enter the second matrice ",size);
+        Data data = new Data(matA,matB,operation);
+        
+        float [][] result = util.sendReciveMatrice(socket, data);
+        
+            util.printMatrice(result);
+    }
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
@@ -64,7 +81,7 @@ public class Client {
         
         // start timer 
         long start = System.currentTimeMillis();
-        client.sendRecieveData();
+        client.applyConvOnImage();
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
         System.out.println(now-start);       
