@@ -56,9 +56,20 @@ public class UtilClient implements IUtilClient {
     }
 
     @Override
-    public float[][] sendReciveMatrice(Socket socket, float[][] matrice) {
+    public float[][] sendReciveMatrice(Socket socket, Data data) {
         // TODO Auto-generated method stub
-        return null;
+
+        ObjectInputStream in = new ObjectOutputStream(socket.getOutputStream());
+        ObjectOutputStream out = new ObjectInputStream(socket.getInputStream());
+        //send
+        out.writeObject(data);
+        out.flush();
+        //receive
+        data= (Data) in.readObject();
+        System.out.println("le resultat est renvoyer du serveur" );
+
+
+        return data.Res;
     }
 
     @Override
