@@ -2,6 +2,7 @@ import java.awt.image.Kernel;
 import java.io.Serializable;
 
 public class Data implements Serializable {
+    String task;
 
     byte[] f;
     int id ;
@@ -96,9 +97,19 @@ public class Data implements Serializable {
         this.arrayKirnel = arrayKirnel;
     }
     // constructor
+
     public Data(float[][] matA, float[][] matB, char operation) {
         this.matA = matA;
         this.matB = matB;
         this.operation = operation;
     }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+   
 }
