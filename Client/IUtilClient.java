@@ -6,6 +6,6 @@ public interface IUtilClient {
     public float[] setKernelFromFile(String filepath) throws IOException;
     public File setImage(String filepath);
     public float[][] ReadMatrice(String text,int size); // read matrices, dimetion, operation, 
-    public float[][] sendReciveMatrice(Socket socket,float[][] matrice);
+    public float[][] sendReciveMatrice(Socket socket,Data data);
     public void printMatrice(float[][] matice);
 }
