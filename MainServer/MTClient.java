@@ -16,9 +16,6 @@ class MTClient extends Thread{
     List<Data> filtredPartey =new ArrayList<Data>();
     Stack<Worker>  slevers ;
     IUtilServer util = new UtilServer();
-    float[] kernel;
-    int hi;
-    int we;
     public MTClient(Socket socket,Stack<Worker>  slevers){
         this.socket = socket;
         this.slevers = slevers ;
@@ -30,54 +27,19 @@ class MTClient extends Thread{
     @Override
     public void run() {
         try {
-            in = new ObjectInputStream(socket.getInputStream());
-            out= new ObjectOutputStream(socket.getOutputStream()) ;
+           
             Data data = (Data) in.readObject();
             switch (data.task) {
                 case "matrice":
                     util.matriceTraitement(socket,data);
                     break;
                 case "convolution":
-                    util.convolutionTraitement(socket,data);
+                    util.convolutionTraitement(socket,data,this.slevers,filtredPartey);
                 break;
                 default:
                     break;
             }
-            this.kernel=data.arrayKirnel;
-            this.hi=data.hegth;
-            this.we=data.width;
-            //========
-
-            File image = new File("./ImageServerinit.jpeg");
-            FileOutputStream outf = new FileOutputStream(image);
-            outf.write(data.f);
-            outf.close();
-
-            Stack<BufferedImage> st = util.Decouper(image,Server.numberS);
             
-            util.DistToSlavers(st,slevers,filtredPartey,kernel);
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                       //sleep(5000);
-                        while (true){
-                            if (filtredPartey.size() < Server.numberS){
-                                System.out.print("");
-                                continue;
-                            }
-                            data.setF(util.Merge(filtredPartey));
-                            out.writeObject(data);
-                            out.flush();
-                            break;
-                        }
-                    }catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    }
-
-            }).start();
             //=======
         } catch (Exception e) {
             System.out.println(e);
