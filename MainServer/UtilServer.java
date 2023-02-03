@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Stack;
 
 public class UtilServer implements IUtilServer {
+    ObjectInputStream in ;
+    ObjectOutputStream out ;
 
     public Stack<BufferedImage> Decouper(File image, int n) throws IOException {
         Stack<BufferedImage> imageDivs = new Stack<BufferedImage>();
@@ -176,8 +178,54 @@ public class UtilServer implements IUtilServer {
     }
 
     @Override
-    public void convolutionTraitement(Socket socket, Data data) {
-        // TODO Auto-generated method stub
+    public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey) {
+        float[] kernel;
+        int hi;
+        int we;
+
+        kernel=data.arrayKirnel;
+        hi=data.hegth;
+        we=data.width;
+            //========
+
+            File image = new File("./ImageServerinit.jpeg");
+            FileOutputStream outf;
+            try {
+                outf = new FileOutputStream(image);
+                outf.write(data.f);
+                outf.close();
+                Stack<BufferedImage> st = Decouper(image,Server.numberS);
+                DistToSlavers(st,slavers,filtredPartey,kernel);
+           
+            }catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        in = new ObjectInputStream(socket.getInputStream());
+                        out= new ObjectOutputStream(socket.getOutputStream()) ;
+                        while (true){
+                            if (filtredPartey.size() < Server.numberS){
+                                System.out.print("");
+                                continue;
+                            }
+                            data.setF(Merge(filtredPartey));
+                            out.writeObject(data);
+                            out.flush();
+                            break;
+                        }
+                    }catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    }
+
+            }).start();
+            
+        
         
     }
 }
