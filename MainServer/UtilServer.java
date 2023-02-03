@@ -168,4 +168,16 @@ public class UtilServer implements IUtilServer {
         }
         return result;
     }
+
+    @Override
+    public void matriceTraitement(Socket socket, Data data) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void convolutionTraitement(Socket socket, Data data) {
+        // TODO Auto-generated method stub
+        
+    }
 }
