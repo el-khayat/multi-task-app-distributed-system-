@@ -16,6 +16,8 @@ public class Client{
     ObjectInputStream in;
     ObjectOutputStream out;
     IUtilClient util = new UtilClient(); 
+    Scanner sc ;
+    
 
     
 
@@ -55,13 +57,13 @@ public class Client{
             this.port = Integer.parseInt(config[1]);
             this.image = util.setImage(args[1]);
             this.Kernel = util.setKernelFromFile(args[2]);
+            this.sc = new Scanner(System.in);
     }
     
     public void matriceOperation() throws UnknownHostException, IOException, ClassNotFoundException{
         socket = new Socket(this.host,this.port);
 
         System.out.println(" chose your operation +, - or *");
-        Scanner sc = new Scanner(System.in);
         char operation = sc.nextLine().charAt(0);
         System.out.println(" enter matrice's size ");
         int  size = sc.nextInt();
@@ -78,7 +80,6 @@ public class Client{
     }
     public  byte[]   applyFilterRMI(byte[] image,String host,int port){
             try{
-                Scanner sc = new Scanner(System.in);
                 System.out.print(" Enter the filter ");
                 String filter = sc.nextLine();
                 Registry registry = LocateRegistry.getRegistry("localhost",9999); 
@@ -122,7 +123,6 @@ public class Client{
         Socket socket = new Socket(this.host,this.port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
-        Scanner scanner = new Scanner(System.in);
 
         new Thread(new Runnable() {
             String message  ="";
@@ -130,15 +130,14 @@ public class Client{
             @Override
             public void run() {
                 System.out.println("You are Joined !  ");
-                    while (true) {
-
-                        message = scanner.nextLine();
-
-                        System.out.println("\n message est "+message);
-                        if (message.equals("stop")) {
-                            break;
-                        }
+                    while (!message.equals("stop")) {
                         try {
+                        message = sc.nextLine();
+                            if (message.equals("") || message == null) {
+                                continue;
+                            }
+                        System.out.println("\n message est "+message);
+                        
                             Data data = new Data();
                             data.setTask("chat");
                             data.setMessage(message) ;
@@ -172,13 +171,12 @@ public class Client{
         },"receive").start();
     }
      public void getTask() throws UnknownHostException, ClassNotFoundException, IOException{
-        Scanner cs = new Scanner(System.in);
         System.out.println(" choise a task  ");
         System.out.println(" 0 : for Convolution ");
         System.out.println(" 1 : for Operation Of Matrix ");
         System.out.println(" 2 : for Filter Images ");
         System.out.println(" 3 : for Room Chat ");
-        int choise = cs.nextInt();
+        int choise = sc.nextInt();
         switch (choise) {
             case 0:
             applyConvOnImage();
@@ -200,7 +198,6 @@ public class Client{
             System.out.println("opps it look like an error was happen ");
                 break;
         }
-        cs.close();
 }
      public static void main(String[] args) throws IOException, ClassNotFoundException {
 

@@ -18,6 +18,8 @@ public class Server extends FilterImp implements Runnable {
     Stack<Worker> slevers = new Stack<Worker>();
     IUtilServer util = new UtilServer();
     static List<Socket> members = new ArrayList<Socket>();
+    static List<ObjectOutputStream> outs = new ArrayList<ObjectOutputStream>();
+    static List<ObjectInputStream> ins = new ArrayList<ObjectInputStream>();
 
     public Server() throws IOException {
         util.getAvailabelSlavers(new File("./slavers.txt"), slevers);
@@ -36,7 +38,13 @@ public class Server extends FilterImp implements Runnable {
             while (true){
                 Socket socket = serverSocket.accept() ;
                 members.add(socket);
-                new MTClient(socket, slevers,id++).start();
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                ins.add(in);
+                outs.add(out);
+                new MTClient(socket,in,out,slevers,id++).start();
+                System.out.println("=======| ++++++++++++=====================");
+
             }
         } catch (Exception e) {
             System.out.println(" Error : Client disconnect !");
