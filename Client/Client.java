@@ -161,6 +161,7 @@ public class Client{
                             message = data.getMessage();
                             System.out.println("=> "+message);
                         } catch (Exception e) {
+
                             throw new RuntimeException(e);
                         }
                     }                
@@ -191,6 +192,7 @@ public class Client{
                 break;
             case 3:
                 joinToRoom();
+
                 break;
             default:
             System.out.println("opps it look like an error was happen ");
