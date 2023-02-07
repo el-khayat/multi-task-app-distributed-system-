@@ -1,5 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -8,6 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 public class UtilClient implements IUtilClient {
 
@@ -115,22 +119,12 @@ public class UtilClient implements IUtilClient {
 
         return bytes;
     }
+    public byte[] buffredImageToByte(BufferedImage bi )throws IOException{
 
-    @Override
-    public File byteToFile(byte[] bytes) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ImageIO.write(bi, "jpg", baos);
+    byte[] bytes = baos.toByteArray();
+    return bytes ;
     }
 
-    @Override
-    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BufferedImage byteToBuffredImage(byte[] bytes) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
