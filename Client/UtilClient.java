@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -103,8 +104,8 @@ public class UtilClient implements IUtilClient {
         System.out.println(matAs);
     }
 
-    // @Override
-    public byte[] fileTOByte(File file) throws IOException {
+    @Override
+    public byte[] fileToByte(File file) throws IOException {
         FileInputStream fl = new FileInputStream(file);
 
         byte[] bytes = new byte[(int) file.length()];
@@ -113,5 +114,23 @@ public class UtilClient implements IUtilClient {
         fl.close();
 
         return bytes;
+    }
+
+    @Override
+    public File byteToFile(byte[] bytes) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BufferedImage byteToBuffredImage(byte[] bytes) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
