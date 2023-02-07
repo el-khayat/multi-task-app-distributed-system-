@@ -14,10 +14,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
-
 import javax.imageio.ImageIO;
 
 public class UtilClient implements IUtilClient {
