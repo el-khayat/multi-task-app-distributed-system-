@@ -1,6 +1,8 @@
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -10,6 +12,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 import javax.imageio.ImageIO;
 
@@ -108,8 +113,8 @@ public class UtilClient implements IUtilClient {
         System.out.println(matAs);
     }
 
-    // @Override
-    public byte[] fileTOByte(File file) throws IOException {
+    @Override
+    public byte[] fileToByte(File file) throws IOException {
         FileInputStream fl = new FileInputStream(file);
 
         byte[] bytes = new byte[(int) file.length()];
@@ -145,4 +150,12 @@ public class UtilClient implements IUtilClient {
         bufferedImage = ImageIO.read(is);
          return bufferedImage ;
     }
+    public byte[] buffredImageToByte(BufferedImage bi )throws IOException{
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ImageIO.write(bi, "jpg", baos);
+    byte[] bytes = baos.toByteArray();
+    return bytes ;
+    }
+
 }
