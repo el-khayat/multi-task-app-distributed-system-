@@ -118,13 +118,63 @@ public class Client{
       
          return image;   
      }
-    
+    public void joinToRoom() throws IOException{
+        Socket socket = new Socket(this.host,this.port);
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                System.out.println("You are Joined !  ");
+                    String message ;
+                    Scanner sc = new Scanner(System.in);
+                    while (true) {
+                        message = sc.nextLine();
+                        if (message.equals("stop")) {
+                            break;
+                        }
+                        try {
+                            Data data = new Data();
+                            data.setTask("chat");
+                            data.setMessage(message) ;
+                            out.writeObject(data);
+                            out.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    sc.close();
+            }
+            
+        },"send").start();
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                    String message ;
+                    while (true) {
+                       
+                        try {
+                            Data data = (Data) in.readObject();
+                            message = Data.getMessage();
+                            System.out.println("=> "+message);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }                
+            }
+            
+        },"receive").start();
+    }
      public void getTask() throws UnknownHostException, ClassNotFoundException, IOException{
         Scanner cs = new Scanner(System.in);
         System.out.println(" choise a task  ");
         System.out.println(" 0 : for Convolution ");
         System.out.println(" 1 : for Operation Of Matrix ");
         System.out.println(" 2 : for Filter Images ");
+        System.out.println(" 3 : for Room Chat ");
         int choise = cs.nextInt();
         switch (choise) {
             case 0:
@@ -134,10 +184,13 @@ public class Client{
             matriceOperation();
                 break;
             case 2:
-            File image = new File("./assets/img.jpeg");
-            File filtredImage = new File("./assets/result.jpeg");
-            byte[] res = applyFilterRMI(util.fileToByte(image),"localhost",9999);
-            util.byteToFile(res, filtredImage);
+                File image = new File("./assets/img.jpeg");
+                File filtredImage = new File("./assets/result.jpeg");
+                byte[] res = applyFilterRMI(util.fileToByte(image),"localhost",9999);
+                util.byteToFile(res, filtredImage);
+                break;
+            case 3:
+            util.joinToRoom();
                 break;
             default:
             System.out.println("opps it look like an error was happen ");
