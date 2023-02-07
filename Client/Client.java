@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class Client{
@@ -72,7 +74,51 @@ public class Client{
         
             util.printMatrice(result);
             sc.close();
+            socket.close();
     }
+    public  File   applyFilterRMI(File image,String filter,String host,int port){
+        byte[] br = new byte[100];
+            try{
+                
+        Registry registry = LocateRegistry.getRegistry(host,port); 
+        IFilterRMI stub = (IFilterRMI) registry.lookup("Test"); 
+
+         // Looking up the registry for the remote object   File image = new File("imqge.jpg")                                 
+                                FileInputStream inf = new FileInputStream(image);
+                                 byte b[] = new byte[inf.available()];
+                                 inf.read(b);
+                                 inf.close();
+                                switch(filter){
+                                    case "gray"  :
+                                     image = stub.Grayscale(b);
+                                        break;
+                                case "negative"  :
+                                    br = stub.negative(b);
+                                    FileOutputStream fileOutputStream = new FileOutputStream(image);
+                                    fileOutputStream.write(br);
+                                    return image;
+                                    
+                                case "red"  :
+                                     image = stub.green(b);
+                                        break;                                
+                                case "sepia"  :
+                                     image = stub.sepia(b);
+                                        break;
+                                case "blue"  :
+                                     image = stub.sepia(b);
+                                        break;
+                                case "green"  :
+                                     image = stub.sepia(b);
+                                        break;
+                                        
+                                }
+                                
+        }catch (Exception e) {
+         System.err.println("Client exception: " + e.toString()); 
+         e.printStackTrace(); 
+      }
+         return image;   
+     }
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
@@ -84,7 +130,10 @@ public class Client{
         
         // start timer 
         long start = System.currentTimeMillis();
-        client.matriceOperation();
+        String file = "./assets/img.jpeg";
+        File image = new File(file);
+
+        image = client.applyFilterRMI(image,"gray",client.host,client.port);
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
         System.out.println(now-start);       

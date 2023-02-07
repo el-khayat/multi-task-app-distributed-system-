@@ -51,7 +51,7 @@ public class UtilServer implements IUtilServer {
             float[] kernel) {
 
         Iterator<BufferedImage> itr = st.iterator();
-        Stack<Worker> workers = (Stack) slavers.clone();
+        Stack<Worker> workers = (Stack<Worker>) slavers.clone();
         while (itr.hasNext()) {
             BufferedImage bi = itr.next();
             Worker slaver = (Worker) workers.pop();

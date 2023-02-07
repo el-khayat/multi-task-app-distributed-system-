@@ -70,7 +70,6 @@ public class UtilClient implements IUtilClient {
 
     @Override
     public float[][] sendReciveMatrice(Socket socket, Data data) throws IOException, ClassNotFoundException {
-        // TODO Auto-generated method stub
 
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -88,7 +87,6 @@ public class UtilClient implements IUtilClient {
 
     @Override
     public void printMatrice(float[][] matrice) {
-        // TODO Auto-generated method stub
         String matAs  = "\n";
         matAs+="\n";
           for (int i = 0 ; i<matrice.length; ++i ){
