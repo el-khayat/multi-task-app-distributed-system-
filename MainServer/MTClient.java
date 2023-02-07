@@ -14,10 +14,12 @@ class MTClient extends Thread {
     IUtilServer util = new UtilServer();
     int id ;
 
-    public MTClient(Socket socket, Stack<Worker> slevers,int id) {
+    public MTClient(Socket socket,ObjectInputStream in,ObjectOutputStream out, Stack<Worker> slevers,int id) {
         this.socket = socket;
         this.slevers = slevers;
         this.id = id ;
+        this.out = out ;
+        this.in = in ;
         System.out.println("client coneccted" + Server.numberS);
 
     }
@@ -25,9 +27,8 @@ class MTClient extends Thread {
     @Override
     public void run() {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
+            //  in = new ObjectInputStream(socket.getInputStream());
+            //  out = new ObjectOutputStream(socket.getOutputStream());
             Data data = (Data) in.readObject();
 
             switch (data.task) {
@@ -39,7 +40,7 @@ class MTClient extends Thread {
                     util.convolutionTraitement(socket, data, this.slevers, filtredPartey, in, out);
                     break; 
                 case "chat":
-                    util.resend(socket, data,id);
+                    util.resend(socket,data,id);
                     break;
                 default:
                     break;
