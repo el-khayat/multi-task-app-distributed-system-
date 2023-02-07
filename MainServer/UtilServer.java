@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Stack;
 
 public class UtilServer implements IUtilServer {
-    ObjectInputStream in ;
-    ObjectOutputStream out ;
+    ObjectInputStream in;
+    ObjectOutputStream out;
 
     public Stack<BufferedImage> Decouper(File image, int n) throws IOException {
         Stack<BufferedImage> imageDivs = new Stack<BufferedImage>();
@@ -156,15 +156,15 @@ public class UtilServer implements IUtilServer {
 
     @Override
     public float[][] multiplicationMatrice(float[][] matA, float[][] matB) {
-        
+
         float[][] result = new float[matA.length][matA[0].length];
-        for(int i = 0; i < matA.length; ++i) {
-            for(int j = 0; j < matB.length; ++j) {
-                result[i][j] =0;
-                for(int k = 0; k < matA.length;k++){
-                   result[i][j] += matA[i][k]*matB[k][j];
+        for (int i = 0; i < matA.length; ++i) {
+            for (int j = 0; j < matB.length; ++j) {
+                result[i][j] = 0;
+                for (int k = 0; k < matA.length; k++) {
+                    result[i][j] += matA[i][k] * matB[k][j];
                 }
-                System.out.print(result[i][j]+" "); 
+                System.out.print(result[i][j] + " ");
             }
             System.out.println();
         }
@@ -172,64 +172,60 @@ public class UtilServer implements IUtilServer {
     }
 
     @Override
-    public void matriceTraitement(Socket socket, Data data,ObjectInputStream in,ObjectOutputStream out) {
-       float[][] res = null; 
-    switch(data.operation){
-        case '+':
+    public void matriceTraitement(Socket socket, Data data, ObjectInputStream in, ObjectOutputStream out) {
+        float[][] res = null;
+        switch (data.operation) {
+            case '+':
 
-        res = additionMatrice(data.matA,data.matB);
-            break;
-        case '-':
-        res = substractionMatrice(data.matA,data.matB);
-            break;
-        case '*':
-        res = multiplicationMatrice(data.matA,data.matB);
-            break;
-        default:
-            break;
+                res = additionMatrice(data.matA, data.matB);
+                break;
+            case '-':
+                res = substractionMatrice(data.matA, data.matB);
+                break;
+            case '*':
+                res = multiplicationMatrice(data.matA, data.matB);
+                break;
+            default:
+                break;
+        }
+        data.setRes(res);
+        try {
+            out.writeObject(data);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ;
+
     }
-    data.setRes(res);
-    try {
-        out.writeObject(data);
-        out.flush();
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    };
-    
-
- }
 
     @Override
-    public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey,ObjectInputStream in,ObjectOutputStream out) {
+    public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey,
+            ObjectInputStream in, ObjectOutputStream out) {
         float[] kernel;
-        int hi;
-        int we;
 
-        kernel=data.arrayKirnel;
-        hi=data.hegth;
-        we=data.width;
-            //========
+        kernel = data.arrayKirnel;
+        // ========
 
-            File image = new File("./ImageServerinit.jpeg");
-            FileOutputStream outf;
-            try {
-                outf = new FileOutputStream(image);
-                outf.write(data.f);
-                outf.close();
-                Stack<BufferedImage> st = Decouper(image,Server.numberS);
-                DistToSlavers(st,slavers,filtredPartey,kernel);
-                
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
+        File image = new File("./ImageServerinit.jpeg");
+        FileOutputStream outf;
+        try {
+            outf = new FileOutputStream(image);
+            outf.write(data.f);
+            outf.close();
+            Stack<BufferedImage> st = Decouper(image, Server.numberS);
+            DistToSlavers(st, slavers, filtredPartey, kernel);
 
-                            // in = new ObjectInputStream(socket.getInputStream());
-                            // out= new ObjectOutputStream(socket.getOutputStream()) ;
-                            System.out.print("done");
-                        while (true){
-                            if (filtredPartey.size() < Server.numberS){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        // in = new ObjectInputStream(socket.getInputStream());
+                        // out= new ObjectOutputStream(socket.getOutputStream()) ;
+                        System.out.print("done");
+                        while (true) {
+                            if (filtredPartey.size() < Server.numberS) {
                                 System.out.print("wait ...");
                                 continue;
                             }
@@ -240,17 +236,16 @@ public class UtilServer implements IUtilServer {
                             out.flush();
                             break;
                         }
-                    }catch (IOException e) {
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    }
+                }
 
             }).start();
 
-        }catch (Exception e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 }
