@@ -5,11 +5,13 @@ import java.io.ByteArrayOutputStream;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 import java.awt.image.BufferedImage;
@@ -127,8 +129,11 @@ public class UtilClient implements IUtilClient {
 
     @Override
     public File byteToFile(byte[] bytes) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
+        File file = null;
+        OutputStream os = new FileOutputStream(file);
+        os.write(bytes);
+        os.close();
+        return file;
     }
 
     @Override
@@ -136,15 +141,15 @@ public class UtilClient implements IUtilClient {
         BufferedImage bufferedImage = null;
         InputStream is = new ByteArrayInputStream(bytes);
         bufferedImage = ImageIO.read(is);
-         return bufferedImage ;
+        return bufferedImage;
     }
-    
+
     @Override
-    public byte[] buffredImageToByte(BufferedImage bi )throws IOException{
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ImageIO.write(bi, "jpg", baos);
-    byte[] bytes = baos.toByteArray();
-    return bytes ;
+    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bi, "jpg", baos);
+        byte[] bytes = baos.toByteArray();
+        return bytes;
     }
 
 }
