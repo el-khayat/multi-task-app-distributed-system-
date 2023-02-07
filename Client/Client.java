@@ -76,41 +76,32 @@ public class Client{
             sc.close();
             socket.close();
     }
-    public  File   applyFilterRMI(File image,String filter,String host,int port){
-        byte[] br = new byte[100];
+    public  byte[]   applyFilterRMI(byte[] image,String filter,String host,int port){
             try{
                 
-        Registry registry = LocateRegistry.getRegistry(host,port); 
+        Registry registry = LocateRegistry.getRegistry("localhost",9999); 
         IFilterRMI stub = (IFilterRMI) registry.lookup("Test"); 
 
          // Looking up the registry for the remote object   File image = new File("imqge.jpg")                                 
-                                FileInputStream inf = new FileInputStream(image);
-                                 byte b[] = new byte[inf.available()];
-                                 inf.read(b);
-                                 inf.close();
                                 switch(filter){
                                     case "gray"  :
-                                     image = stub.Grayscale(b);
+                                     image = stub.Grayscale(image) ;
                                         break;
                                 case "negative"  :
-                                    br = stub.negative(b);
-                                    FileOutputStream fileOutputStream = new FileOutputStream(image);
-                                    fileOutputStream.write(br);
-                                    return image;
-                                    
+                                     image = stub.negative(image);
+                                    break;
                                 case "red"  :
-                                     image = stub.green(b);
+                                     image = stub.green(image);
                                         break;                                
                                 case "sepia"  :
-                                     image = stub.sepia(b);
+                                     image = stub.sepia(image);
                                         break;
                                 case "blue"  :
-                                     image = stub.sepia(b);
+                                     image = stub.sepia(image);
                                         break;
                                 case "green"  :
-                                     image = stub.sepia(b);
+                                     image = stub.sepia(image);
                                         break;
-                                        
                                 }
                                 
         }catch (Exception e) {
@@ -127,14 +118,17 @@ public class Client{
          System.exit(-1); 
         }
         Client client = new Client(args);
+
         
         // start timer 
         long start = System.currentTimeMillis();
         String file = "./assets/img.jpeg";
         File image = new File(file);
-        File result = new File("./assets/result.jpeg");
-        result = client.applyFilterRMI(image,"gray","localhost",9999);
-
+        // File result = new File("./assets/result.jpeg");
+        File filtredImage = new File("./assets/result.jpeg");
+        byte[] result = client.applyFilterRMI(client.util.fileToByte(image),"gray","localhost",9999);
+        client.util.byteToFile(result, filtredImage);
+        
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
         System.out.println(now-start);       

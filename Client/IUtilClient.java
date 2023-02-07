@@ -10,7 +10,7 @@ public interface IUtilClient {
     public float[][] sendReciveMatrice(Socket socket, Data data) throws IOException, ClassNotFoundException;
     public void printMatrice(float[][] matice);
     public byte[] fileToByte(File file)throws IOException;
-    public File byteToFile(byte[] bytes)throws IOException;
+    public File byteToFile(byte[] bytes,File file)throws IOException;
     public byte[] buffredImageToByte(BufferedImage bi )throws IOException;
     public BufferedImage byteToBuffredImage(byte[] bytes )throws IOException;
     

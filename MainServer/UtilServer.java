@@ -262,8 +262,7 @@ public class UtilServer implements IUtilServer {
     }
 
     @Override
-    public File byteToFile(byte[] bytes) throws IOException {
-        File file = null;
+    public File byteToFile(byte[] bytes,File file)throws IOException{
         OutputStream os = new FileOutputStream(file);
         os.write(bytes);
         os.close();

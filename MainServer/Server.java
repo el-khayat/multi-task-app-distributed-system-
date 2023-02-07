@@ -25,7 +25,7 @@ public class Server extends FilterImp implements Runnable {
             System.out.println("server is running at port 3334");
             IFilterRMI obj = new FilterImp();
             IFilterRMI skeleton  = (IFilterRMI) UnicastRemoteObject.exportObject(obj, 0);
-            Registry registry = LocateRegistry.createRegistry(3334);
+            Registry registry = LocateRegistry.createRegistry(9999);
             registry.bind("Test", skeleton );
             
             while (true)
