@@ -76,41 +76,76 @@ public class Client{
             sc.close();
             socket.close();
     }
-    public  byte[]   applyFilterRMI(byte[] image,String filter,String host,int port){
+    public  byte[]   applyFilterRMI(byte[] image,String host,int port){
             try{
-                
-        Registry registry = LocateRegistry.getRegistry("localhost",9999); 
-        IFilterRMI stub = (IFilterRMI) registry.lookup("Test"); 
+                Scanner sc = new Scanner(System.in);
+                System.out.print(" Enter the filter ");
+                String filter = sc.nextLine();
+                Registry registry = LocateRegistry.getRegistry("localhost",9999); 
+                IFilterRMI stub = (IFilterRMI) registry.lookup("Test"); 
 
-         // Looking up the registry for the remote object   File image = new File("imqge.jpg")                                 
-                                switch(filter){
-                                    case "gray"  :
-                                     image = stub.Grayscale(image) ;
-                                        break;
-                                case "negative"  :
-                                     image = stub.negative(image);
-                                    break;
-                                case "red"  :
-                                     image = stub.green(image);
-                                        break;                                
-                                case "sepia"  :
-                                     image = stub.sepia(image);
-                                        break;
-                                case "blue"  :
-                                     image = stub.sepia(image);
-                                        break;
-                                case "green"  :
-                                     image = stub.sepia(image);
-                                        break;
-                                }
+                switch(filter){
+                    case "gray"  :
+                        image = stub.Grayscale(image) ;
+                        break;
+                case "negative"  :
+                        image = stub.negative(image);
+                    break;
+                case "red"  :
+                        image = stub.red(image);
+                        break;                                
+                case "sepia"  :
+                        image = stub.sepia(image);
+                        break;
+                case "blue"  :
+                        image = stub.blue(image);
+                        break;
+                case "green"  :
+                        image = stub.green(image);
+                        break;
+                default:
+                        System.out.println("Your choise Doesn't exist ");
+                        applyFilterRMI(image, host, port);
+                        break;
+
+            }
+            sc.close();
                                 
         }catch (Exception e) {
          System.err.println("Client exception: " + e.toString()); 
          e.printStackTrace(); 
       }
+      
          return image;   
      }
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    
+     public void getTask() throws UnknownHostException, ClassNotFoundException, IOException{
+        Scanner cs = new Scanner(System.in);
+        System.out.println(" choise a task  ");
+        System.out.println(" 0 : for Convolution ");
+        System.out.println(" 1 : for Operation Of Matrix ");
+        System.out.println(" 2 : for Filter Images ");
+        int choise = cs.nextInt();
+        switch (choise) {
+            case 0:
+            applyConvOnImage();
+                break;
+            case 1:
+            matriceOperation();
+                break;
+            case 2:
+            File image = new File("./assets/img.jpeg");
+            File filtredImage = new File("./assets/result.jpeg");
+            byte[] res = applyFilterRMI(util.fileToByte(image),"localhost",9999);
+            util.byteToFile(res, filtredImage);
+                break;
+            default:
+            System.out.println("opps it look like an error was happen ");
+                break;
+        }
+        cs.close();
+}
+     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
         if (args.length < 3) {
@@ -118,16 +153,12 @@ public class Client{
          System.exit(-1); 
         }
         Client client = new Client(args);
-
+        client.getTask();
         
         // start timer 
         long start = System.currentTimeMillis();
-        String file = "./assets/img.jpeg";
-        File image = new File(file);
-        // File result = new File("./assets/result.jpeg");
-        File filtredImage = new File("./assets/result.jpeg");
-        byte[] result = client.applyFilterRMI(client.util.fileToByte(image),"gray","localhost",9999);
-        client.util.byteToFile(result, filtredImage);
+        
+        
         
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
