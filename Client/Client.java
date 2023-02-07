@@ -122,16 +122,19 @@ public class Client{
         Socket socket = new Socket(this.host,this.port);
         out = new ObjectOutputStream(socket.getOutputStream());
         in = new ObjectInputStream(socket.getInputStream());
+        Scanner scanner = new Scanner(System.in);
 
         new Thread(new Runnable() {
+            String message  ="";
 
             @Override
             public void run() {
                 System.out.println("You are Joined !  ");
-                    String message ;
-                    Scanner sc = new Scanner(System.in);
                     while (true) {
-                        message = sc.nextLine();
+
+                        message = scanner.nextLine();
+
+                        System.out.println("\n message est "+message);
                         if (message.equals("stop")) {
                             break;
                         }
@@ -145,7 +148,6 @@ public class Client{
                             throw new RuntimeException(e);
                         }
                     }
-                    sc.close();
             }
             
         },"send").start();
