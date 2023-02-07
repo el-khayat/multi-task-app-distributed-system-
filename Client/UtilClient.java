@@ -126,19 +126,7 @@ public class UtilClient implements IUtilClient {
     }
 
     @Override
-    public byte[] fileToByte(File file) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public File byteToFile(byte[] bytes) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -150,8 +138,9 @@ public class UtilClient implements IUtilClient {
         bufferedImage = ImageIO.read(is);
          return bufferedImage ;
     }
+    
+    @Override
     public byte[] buffredImageToByte(BufferedImage bi )throws IOException{
-
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ImageIO.write(bi, "jpg", baos);
     byte[] bytes = baos.toByteArray();
