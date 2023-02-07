@@ -26,7 +26,7 @@ public interface IUtilServer {
     public void matriceTraitement(Socket socket, Data data,ObjectInputStream in,ObjectOutputStream out);
     public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey,ObjectInputStream in,ObjectOutputStream out);
     public byte[] fileToByte(File file)throws IOException;
-    public File byteToFile(byte[] bytes)throws IOException;
+    public File byteToFile(byte[] bytes,File file)throws IOException;
     public byte[] buffredImageToByte(BufferedImage bi )throws IOException;
     public BufferedImage byteToBuffredImage(byte[] bytes )throws IOException;
     

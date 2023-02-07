@@ -1,7 +1,6 @@
 //Implementing the remote interface
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -11,27 +10,13 @@ import java.awt.image.BufferedImage;
 
     public class FilterImp  implements IFilterRMI {
     String source = "./assets/imageResult.png";
-    // Implementing the interface method
-    public String printMsg() {
-        System.out.println("Server: This is an example RMI program");
-        return " Resut of Server ...... ";
-    }
+    IUtilServer util = new UtilServer();
 
-    public int add(int a, int b) {
-        return a + b;
-    }
-
-    public File Grayscale(byte file[]) throws RemoteException {
+    public byte[] Grayscale(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
-        File f = null;
         System.out.println(" invoked \n");
         try {
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-
-            img = ImageIO.read(f);
-            inf.close();
+            img = util.byteToBuffredImage(file);
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -58,29 +43,14 @@ import java.awt.image.BufferedImage;
                 img.setRGB(x, y, p);
             }
         }
-
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return f;
+        return util.buffredImageToByte(img);
     }
-
-    public byte[] negative(byte file[]) throws RemoteException {
+    public byte[] negative(byte file[]) throws RemoteException,IOException {
 
         BufferedImage img = null;
-        File f = null;
-        byte[] fileR = new byte[100] ;
                 System.out.println(" invoked \n");
         try {
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-
-            img = ImageIO.read(f);
-            inf.close();
+            img = util.byteToBuffredImage(file);
             Thread.sleep(1000);
         } catch (IOException e) {
             System.out.println(e);
@@ -94,34 +64,18 @@ import java.awt.image.BufferedImage;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Color c = new Color(img.getRGB(x, y));
-
                 int red = 255 - c.getRed();
                 int blue = 255 - c.getBlue();
                 int green = 255 - c.getGreen();
-                //int avg = (r+g+b)/3;
                 Color newColor = new Color(red, green, blue);
-
-                // p=(a<<24) | (avg<<16) | (avg<<8) | avg;
-
                 img.setRGB(x, y, newColor.getRGB());
             }
         }
 
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-            FileInputStream fileInputStream = new FileInputStream(f);
-
-            fileR = new byte[fileInputStream.available()];
-            fileInputStream.read(fileR);
-            fileInputStream.close();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return fileR;
+        
+        return util.buffredImageToByte(img);
     }
-
-    public File red(byte file[]) throws RemoteException {
+    public byte[] red(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
         File f = null;
         System.out.println(" invoked \n");
@@ -157,26 +111,15 @@ import java.awt.image.BufferedImage;
             }
         }
 
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return f;
+        return util.buffredImageToByte(img);
     }
-    public File blue(byte file[]) throws RemoteException {
+    public byte[] blue(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
-        File f = null;
         System.out.println("blue invoked \n");
         try {
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-
-            img = ImageIO.read(f);
+    
+            img = util.byteToBuffredImage(file);
             Thread.sleep(3000);
-            inf.close();
         } catch (IOException e) {
             System.out.println(e);
         } catch (InterruptedException e) {
@@ -201,26 +144,14 @@ import java.awt.image.BufferedImage;
             }
         }
 
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return f;
+        return util.buffredImageToByte(img);
     }
-    public File green(byte file[]) throws RemoteException {
+    public byte[] green(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
-        File f = null;
-        System.out.println("green invoked \n");
         try {
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-
-            img = ImageIO.read(f);
+            
+            img = util.byteToBuffredImage(file);
             Thread.sleep(1000);
-            inf.close();
         } catch (IOException e) {
             System.out.println(e);
         } catch (InterruptedException e) {
@@ -244,28 +175,15 @@ import java.awt.image.BufferedImage;
                 img.setRGB(x, y, newColor.getRGB());
             }
         }
-
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return f;
+        return util.buffredImageToByte(img);
     }
-
-    public File sepia(byte file[]) throws RemoteException {
+    public byte[] sepia(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
-        File f = null;
         System.out.println("sepia invoked \n");
         try {
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-
-            img = ImageIO.read(f);
+            
+            img = util.byteToBuffredImage(file);
             Thread.sleep(3000);
-            inf.close();
         } catch (IOException e) {
             System.out.println(e);
         } catch (InterruptedException e) {
@@ -287,8 +205,6 @@ import java.awt.image.BufferedImage;
                 int tr = (int) (0.393 * r + 0.769 * g + 0.189 * b);
                 int tg = (int) (0.343 * r + 0.689 * g + 0.168 * b);
                 int tb = (int) (0.272 * r + 0.534 * g + 0.131 * b);
-
-
                 if (tr > 255) {
                     r = 255;
                 } else {
@@ -306,40 +222,22 @@ import java.awt.image.BufferedImage;
                 } else {
                     b = tb;
                 }
-
-
                 p = (a << 24) | (r << 16) | (g << 8) | b;
 
                 img.setRGB(x, y, p);
             }
         }
-
-        try {
-            f = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return f;
+        return util.buffredImageToByte(img);
     }
-
-    public File merge(byte file[]) throws RemoteException {
-
-        File f2 = null ;
-        try {
-
-            BufferedImage img = null;
-            File f = null;
-            System.out.println("megge  invoked \n");
-
-
-            f = new File(source);
-            FileOutputStream inf = new FileOutputStream(f);
-            inf.write(file);
-            img = ImageIO.read(f);
-            Thread.sleep(3000);
-            inf.close();
-
+    public byte[] merge(byte file[]) throws RemoteException,IOException {
+        BufferedImage img = null;
+           
+            img = util.byteToBuffredImage(file);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             int width = img.getWidth();
 
             for (int y = 0; y < img.getHeight(); y++) {
@@ -366,19 +264,9 @@ import java.awt.image.BufferedImage;
 
             }
 
-
-
-
-            f2 = new File("C:\\Users\\Dell\\Documents\\StorageImages\\imageBefore.jpeg");
-            ImageIO.write(img, "jpeg", f2);
-
-        } catch (IOException e) {
-            System.out.println(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return f2;
+            
+        
+        return util.buffredImageToByte(img);
     }
 }
 
