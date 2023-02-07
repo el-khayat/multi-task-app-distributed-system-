@@ -25,4 +25,5 @@ public interface IUtilServer {
     public float[][] multiplicationMatrice(float[][] matA, float[][] matB);
     public void matriceTraitement(Socket socket, Data data,ObjectInputStream in,ObjectOutputStream out);
     public void convolutionTraitement(Socket socket, Data data, Stack<Worker> slavers, List<Data> filtredPartey,ObjectInputStream in,ObjectOutputStream out);
+    
 }
