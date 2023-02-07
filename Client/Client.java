@@ -158,9 +158,10 @@ public class Client{
                        
                         try {
                             Data data = (Data) in.readObject();
-                            message = Data.getMessage();
+                            message = data.getMessage();
                             System.out.println("=> "+message);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
+
                             throw new RuntimeException(e);
                         }
                     }                
@@ -190,7 +191,8 @@ public class Client{
                 util.byteToFile(res, filtredImage);
                 break;
             case 3:
-            util.joinToRoom();
+                joinToRoom();
+
                 break;
             default:
             System.out.println("opps it look like an error was happen ");
