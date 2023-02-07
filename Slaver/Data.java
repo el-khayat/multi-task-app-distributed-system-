@@ -14,7 +14,15 @@ public class Data implements Serializable {
     float [][] matB ;
     float [][] Res = {{0,0},{0,0}};
     char operation;
+    String message;
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public float[][] getMatA() {
         return matA;
