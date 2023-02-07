@@ -12,10 +12,12 @@ class MTClient extends Thread {
     List<Data> filtredPartey = new ArrayList<Data>();
     Stack<Worker> slevers;
     IUtilServer util = new UtilServer();
+    int id ;
 
-    public MTClient(Socket socket, Stack<Worker> slevers) {
+    public MTClient(Socket socket, Stack<Worker> slevers,int id) {
         this.socket = socket;
         this.slevers = slevers;
+        this.id = id ;
         System.out.println("client coneccted" + Server.numberS);
 
     }
@@ -34,8 +36,10 @@ class MTClient extends Thread {
                     util.matriceTraitement(socket, data, in, out);
                     break;
                 case "convolution":
-
                     util.convolutionTraitement(socket, data, this.slevers, filtredPartey, in, out);
+                    break; 
+                case "chat":
+                    util.resend(socket, data,id);
                     break;
                 default:
                     break;

@@ -284,5 +284,18 @@ public class UtilServer implements IUtilServer {
         byte[] bytes = baos.toByteArray();
         return bytes;
     }
-
+    @Override
+    public void resend(Socket socket,Data data,int id){
+        for ( int i = 0 ; i<Server.members.size();++i) {
+            if(Server.members.get(i) != socket) {
+                try {
+                    ObjectOutputStream out = new ObjectOutputStream(Server.members.get(i).getOutputStream() );
+                    out.writeObject(data);
+                } catch (IOException e) {
+                    
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
