@@ -248,4 +248,42 @@ public class UtilServer implements IUtilServer {
         }
 
     }
+
+    @Override
+    public byte[] fileToByte(File file) throws IOException {
+        FileInputStream fl = new FileInputStream(file);
+
+        byte[] bytes = new byte[(int) file.length()];
+        fl.read(bytes);
+
+        fl.close();
+
+        return bytes;
+    }
+
+    @Override
+    public File byteToFile(byte[] bytes) throws IOException {
+        File file = null;
+        OutputStream os = new FileOutputStream(file);
+        os.write(bytes);
+        os.close();
+        return file;
+    }
+
+    @Override
+    public BufferedImage byteToBuffredImage(byte[] bytes) throws IOException {
+        BufferedImage bufferedImage = null;
+        InputStream is = new ByteArrayInputStream(bytes);
+        bufferedImage = ImageIO.read(is);
+        return bufferedImage;
+    }
+
+    @Override
+    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bi, "jpg", baos);
+        byte[] bytes = baos.toByteArray();
+        return bytes;
+    }
+
 }
