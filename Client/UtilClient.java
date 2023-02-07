@@ -1,12 +1,17 @@
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 public class UtilClient implements IUtilClient {
 
@@ -113,5 +118,31 @@ public class UtilClient implements IUtilClient {
         fl.close();
 
         return bytes;
+    }
+
+    @Override
+    public byte[] fileToByte(File file) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public File byteToFile(byte[] bytes) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public byte[] buffredImageToByte(BufferedImage bi) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BufferedImage byteToBuffredImage(byte[] bytes) throws IOException {
+        BufferedImage bufferedImage = null;
+        InputStream is = new ByteArrayInputStream(bytes);
+        bufferedImage = ImageIO.read(is);
+         return bufferedImage ;
     }
 }
