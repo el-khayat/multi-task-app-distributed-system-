@@ -132,8 +132,9 @@ public class Client{
         long start = System.currentTimeMillis();
         String file = "./assets/img.jpeg";
         File image = new File(file);
+        File result = new File("./assets/result.jpeg");
+        result = client.applyFilterRMI(image,"gray","localhost",9999);
 
-        image = client.applyFilterRMI(image,"gray",client.host,client.port);
         long now = System.currentTimeMillis();
         System.out.println(" duree est ");
         System.out.println(now-start);       
