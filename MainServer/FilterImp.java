@@ -14,16 +14,10 @@ import java.awt.image.BufferedImage;
 
     public byte[] Grayscale(byte file[]) throws RemoteException,IOException {
         BufferedImage img = null;
-        System.out.println(" invoked \n");
-        try {
-            img = util.byteToBuffredImage(file);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
+        System.out.println(" Grayscale invoked \n");
+        img = util.byteToBuffredImage(file);
         int width = img.getWidth();
         int height = img.getHeight();
-
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int p = img.getRGB(x, y);

@@ -11,4 +11,5 @@ public interface IFilterRMI extends Remote {
     public byte[] blue(byte file[] ) throws RemoteException, IOException ;
     public byte[] sepia(byte file[] ) throws RemoteException, IOException ;
     public byte[] merge(byte file[] ) throws RemoteException, IOException ;
+    
 }

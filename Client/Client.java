@@ -17,6 +17,7 @@ public class Client{
     ObjectOutputStream out;
     IUtilClient util = new UtilClient(); 
     Scanner sc ;
+    String name ;
     
 
     
@@ -62,7 +63,7 @@ public class Client{
     
     public void matriceOperation() throws UnknownHostException, IOException, ClassNotFoundException{
         socket = new Socket(this.host,this.port);
-
+        Scanner sc = new Scanner(System.in);
         System.out.println(" chose your operation +, - or *");
         char operation = sc.nextLine().charAt(0);
         System.out.println(" enter matrice's size ");
@@ -79,15 +80,17 @@ public class Client{
             socket.close();
     }
     public  byte[]   applyFilterRMI(byte[] image,String host,int port){
-            try{
-                System.out.print(" Enter the filter ");
-                String filter = sc.nextLine();
+        try{
                 Registry registry = LocateRegistry.getRegistry("localhost",9999); 
                 IFilterRMI stub = (IFilterRMI) registry.lookup("Test"); 
+                System.out.print(" Enter the filter ");
+                String filter ;
+                Scanner scanner = new Scanner(System.in);
+                filter = scanner.nextLine();
 
                 switch(filter){
                     case "gray"  :
-                        image = stub.Grayscale(image) ;
+                    image = stub.Grayscale(image) ;
                         break;
                 case "negative"  :
                         image = stub.negative(image);
@@ -111,6 +114,7 @@ public class Client{
 
             }
             sc.close();
+            scanner.close();
                                 
         }catch (Exception e) {
          System.err.println("Client exception: " + e.toString()); 
@@ -129,24 +133,31 @@ public class Client{
 
             @Override
             public void run() {
-                System.out.println("You are Joined !  ");
-                    while (!message.equals("stop")) {
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println("Enter your name   ");
+                name = scanner.nextLine();
+                System.out.println("You are Joined as "+name);
+
+                while (!message.equals("stop")) {
+                    Data data = new Data();
+                    data.setTask("chat");
+
                         try {
                         message = sc.nextLine();
                             if (message.equals("") || message == null) {
                                 continue;
                             }
-                        System.out.println("\n message est "+message);
-                        
-                            Data data = new Data();
-                            data.setTask("chat");
-                            data.setMessage(message) ;
+                            
+                            data.setMessage(name+" :" +message) ;
                             out.writeObject(data);
                             out.flush();
+                            System.out.println("\n message est "+message);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     }
+                    scanner.close();
             }
             
         },"send").start();
