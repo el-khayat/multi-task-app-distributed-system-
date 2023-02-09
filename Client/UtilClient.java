@@ -124,7 +124,7 @@ public class UtilClient implements IUtilClient {
     }
 
     @Override
-    public File byteToFile(byte[] bytes,File file) throws IOException {
+    public File byteToFile(byte[] bytes, File file) throws IOException {
         OutputStream os = new FileOutputStream(file);
         os.write(bytes);
         os.close();
