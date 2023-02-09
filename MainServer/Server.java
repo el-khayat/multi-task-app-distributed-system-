@@ -29,7 +29,7 @@ public class Server extends FilterImp implements Runnable {
     public void run() {
         try {
             serverSocket = new ServerSocket(3336);
-            System.out.println("server is running at port 3334");
+            System.out.println("server is running at port 9999");
             IFilterRMI obj = new FilterImp();
             IFilterRMI skeleton  = (IFilterRMI) UnicastRemoteObject.exportObject(obj, 0);
             Registry registry = LocateRegistry.createRegistry(9999);

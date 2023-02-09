@@ -27,29 +27,29 @@ class MTClient extends Thread {
     @Override
     public void run() {
         try {
-            //  in = new ObjectInputStream(socket.getInputStream());
-            //  out = new ObjectOutputStream(socket.getOutputStream());
-            Data data = (Data) in.readObject();
+            Data data ;
+            while(true){
+                 data = (Data) in.readObject();
 
             switch (data.task) {
                 case "matrice":
-
-                    util.matriceTraitement(socket, data, in, out);
+                System.out.println("matrice called .... !  ");
+                util.matriceTraitement(socket, data, in, out);
                     break;
                 case "convolution":
                     util.convolutionTraitement(socket, data, this.slevers, filtredPartey, in, out);
                     break; 
                 case "chat":
+
                     util.resend(socket,data,id);
                     break;
                 default:
                     break;
             }
             ;
-
-            // =======
+        }
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
+}
 }
