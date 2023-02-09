@@ -67,7 +67,7 @@ public class UtilClient implements IUtilClient {
     public float[][] ReadMatrice(String text, int size) {
         System.out.println(text);
         final Scanner sc = new Scanner(System.in);
-        float[][] a = new float[][] { { 0, 0 }, { 0, 0 } };
+        float[][] a = new float[size][size] ;
         System.out.println("Entrez  Matrice");
         int i;
         int j;
